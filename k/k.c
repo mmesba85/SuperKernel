@@ -31,7 +31,6 @@
 #include "write.h"
 
 
-
 void k_main(unsigned long magic, multiboot_info_t *info)
 {
   init_serial();
@@ -39,7 +38,6 @@ void k_main(unsigned long magic, multiboot_info_t *info)
   switch_to_protected();
   init_idt();
   init_pic();
-
 	(void)magic;
 	(void)info;
 
@@ -47,7 +45,7 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 	char *fb = (void *)0xb8000;
 
   /* idt test */
-  __asm__ volatile("int $3");
+  //__asm__ volatile("int $0x3");
 
 	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];

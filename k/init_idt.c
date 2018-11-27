@@ -6,8 +6,12 @@
 
 #include "idt.h"
 
+#define KEYBOARD_STATUS_PORT 0x64
+#define KEYBOARD_DATA_PORT 0x60
+
+extern void keyboard_handler ();
 // These extern directives let us access the addresses of our ASM ISR handlers.
-extern void isr0 (void);
+extern void isr0 ();
 extern void isr1 ();
 extern void isr2 ();
 extern void isr3 ();
@@ -58,6 +62,8 @@ extern void irq12();
 extern void irq13();
 extern void irq14();
 extern void irq15();
+
+
 
 struct idtdesc idt[IDTSIZE];
 struct idt_r idtr;
@@ -116,7 +122,7 @@ void init_idt(void)
 
     // IRQ entries
     idt_set_gate(32, (u32)irq0, 0x08, 0x8E);
-    idt_set_gate(33, (u32)irq1, 0x08, 0x8E);
+    idt_set_gate(33, (u32)keyboard_handler, 0x08, 0x8E);
     idt_set_gate(34, (u32)irq2, 0x08, 0x8E);
     idt_set_gate(35, (u32)irq3, 0x08, 0x8E);
     idt_set_gate(36, (u32)irq4, 0x08, 0x8E);
@@ -138,11 +144,26 @@ void init_idt(void)
       : "memory");
 }
 
+void keyboard_handler_main(void) {
+	unsigned char status;
+	char keycode;
+  outb(0x20, 0x20);
+	status = inb(KEYBOARD_STATUS_PORT);
+	if (status & 0x01) {
+		keycode = inb(KEYBOARD_DATA_PORT);
+    printf("%d**\n", keycode);
+		if(keycode < 0)
+			return;
+		//vidptr[current_loc++] = keyboard_map[keycode];
+		//vidptr[current_loc++] = 0x07;
+	}
+}
+
 void generate_c_handler(registers_t regs)
 {
-    if(regs.err_code < 32)
+    if(regs.int_no < 32)
     {
-        printf("Exception. Code: %d", regs.err_code);
+        printf("Exception. Code: %d", regs.int_no);
     }
 }
 
