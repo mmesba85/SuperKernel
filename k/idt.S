@@ -1,6 +1,6 @@
 .global keyboard_handler
 keyboard_handler:
-    call    keyboard_handler_main
+    call    getkey
     iret
 
 # Macro for interrupt handler which does not push an error (we push a dummy val)
