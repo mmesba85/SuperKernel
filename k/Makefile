@@ -35,6 +35,7 @@ OBJS	= \
 		init_idt.o \
 		pic.o \
 		write.o \
+		timer.o \
 
 
 DEPS = $(OBJS:.o=.d)

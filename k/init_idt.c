@@ -5,6 +5,9 @@
 #include "io.h"
 #include "keyboard.h"
 #include "idt.h"
+#include "timer.h"
+
+long tick = 0;
 
 struct idt_r idtr;
 struct idtdesc idt[IDTSIZE];
@@ -84,6 +87,7 @@ void init_idt(void)
 }
 
 int getkey(void) {
+  tick++;
   unsigned char status;
 	char keycode;
   outb(0x20, 0x20);
@@ -105,4 +109,7 @@ void generate_c_handler(registers_t regs)
     {
         printf("Exception. Code: %d", regs.int_no);
     }
+    else
+      tick++;
+    printf("%ld\n", tick);
 }

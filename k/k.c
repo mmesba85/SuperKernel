@@ -29,7 +29,7 @@
 #include "idt.h"
 #include "gdt.h"
 #include "write.h"
-
+#include "timer.h"
 
 void k_main(unsigned long magic, multiboot_info_t *info)
 {
