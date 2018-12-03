@@ -12,4 +12,5 @@ void init_timer()
 
     outb(COUNTER0, low);
     outb(COUNTER0, high);
+    outb(0x20, 0x20);
 }

@@ -1,8 +1,3 @@
-.global keyboard_handler
-keyboard_handler:
-    call    getkey
-    iret
-
 # Macro for interrupt handler which does not push an error (we push a dummy val)
 .macro isr_noerr num
 .align 16

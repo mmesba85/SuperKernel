@@ -38,6 +38,7 @@ void k_main(unsigned long magic, multiboot_info_t *info)
   switch_to_protected();
   init_idt();
   init_pic();
+	init_timer();
 	(void)magic;
 	(void)info;
 

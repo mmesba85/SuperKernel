@@ -63,7 +63,7 @@ void init_idt(void)
 
     // IRQ entries
     idt_set_gate(32, (u32)irq0, 0x08, 0x8E);
-    idt_set_gate(33, (u32)keyboard_handler, 0x08, 0x8E);
+    idt_set_gate(33, (u32)irq1, 0x08, 0x8E);
     idt_set_gate(34, (u32)irq2, 0x08, 0x8E);
     idt_set_gate(35, (u32)irq3, 0x08, 0x8E);
     idt_set_gate(36, (u32)irq4, 0x08, 0x8E);
@@ -87,7 +87,6 @@ void init_idt(void)
 }
 
 int getkey(void) {
-  tick++;
   unsigned char status;
 	char keycode;
   outb(0x20, 0x20);
@@ -103,13 +102,21 @@ int getkey(void) {
   return -1;
 }
 
+long gettick()
+{
+  return tick;
+}
+
 void generate_c_handler(registers_t regs)
 {
     if(regs.int_no < 32)
-    {
         printf("Exception. Code: %d", regs.int_no);
-    }
-    else
+    else {
       tick++;
-    printf("%ld\n", tick);
+      if (regs.int_no - 32 == 0)
+        gettick();
+      else if (regs.int_no - 32 == 1)
+        getkey();
+      outb(0x20, 0x20);
+    }
 }

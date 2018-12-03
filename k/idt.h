@@ -29,7 +29,6 @@ struct idt_r {
 void init_idt(void);
 void init_pic(void);
 
-extern void keyboard_handler ();
 extern void isr0 ();
 extern void isr1 ();
 extern void isr2 ();
