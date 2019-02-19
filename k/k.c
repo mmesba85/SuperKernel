@@ -30,7 +30,7 @@
 #include "gdt.h"
 #include "write.h"
 #include "timer.h"
-
+#include <k/atapi.h>
 void k_main(unsigned long magic, multiboot_info_t *info)
 {
   init_serial();
@@ -39,6 +39,8 @@ void k_main(unsigned long magic, multiboot_info_t *info)
   init_idt();
   init_pic();
 	init_timer();
+  discover_atapi_drive();
+  send_packet();
 	(void)magic;
 	(void)info;
 
@@ -48,9 +50,9 @@ void k_main(unsigned long magic, multiboot_info_t *info)
   /* idt test */
   //__asm__ volatile("int $0x3");
 
-	for (unsigned i = 0; ; ) {
+/*	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
-	}
+	}*/
 
 	for (;;)
 		asm volatile ("hlt");

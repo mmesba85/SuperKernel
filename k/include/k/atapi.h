@@ -70,12 +70,12 @@
 # define PACKET_COMMAND_COMPLETE 3
 
 struct SCSI_packet {
-	u8 op_code;
-	u8 flags_lo;
-	u8 lba_hi;
-	u8 lba_mihi;
-	u8 lba_milo;
-	u8 lba_lo;
+	u8 op_code; //READ_12
+	u8 flags_lo; //DPO
+	u8 lba_hi; //0 lba << 24
+	u8 lba_mihi;//0 lba << 16
+	u8 lba_milo;//0 lba << 8
+	u8 lba_lo;//16 lba
 	u8 transfer_length_hi;
 	u8 transfer_length_mihi;
 	u8 transfer_length_milo;
@@ -83,5 +83,8 @@ struct SCSI_packet {
 	u8 flags_hi;
 	u8 control;
 } __packed;
+
+void discover_atapi_drive();
+void send_packet();
 
 #endif /* !ATAPI_H_ */
