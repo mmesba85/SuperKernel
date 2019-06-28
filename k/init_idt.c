@@ -88,7 +88,7 @@ void init_idt(void)
 
 int getkey(void) {
   unsigned char status;
-	char keycode;
+	int keycode;
   outb(0x20, 0x20);
   status = inb(KEYBOARD_STATUS_PORT);
 	if (status & 0x01) {

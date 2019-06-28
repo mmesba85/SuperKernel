@@ -31,28 +31,31 @@
 #include "write.h"
 #include "timer.h"
 #include <k/atapi.h>
+
 void k_main(unsigned long magic, multiboot_info_t *info)
 {
   init_serial();
-  load();
-  switch_to_protected();
-  init_idt();
-  init_pic();
-	init_timer();
-  discover_atapi_drive();
+  load();                   // init GDT
+  switch_to_protected();    // switch to protected mode
+  init_idt();               // init IDT
+  init_pic();               // init PIC
+	init_timer();             // init timer
+  getkey();
+  discover_atapi_drive();   
   send_packet();
 	(void)magic;
 	(void)info;
 
-	char star[4] = "|/-\\";
+
+  char star[4] = "|/-\\";
 	char *fb = (void *)0xb8000;
 
   /* idt test */
   //__asm__ volatile("int $0x3");
 
-/*	for (unsigned i = 0; ; ) {
+  for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
-	}*/
+	}
 
 	for (;;)
 		asm volatile ("hlt");

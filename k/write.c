@@ -13,7 +13,7 @@ void init_serial()
 	//disable all interrupts
 	outb(COM1 + 1, 0x00);
 
-	// no parity
+	// no paritys
 	outb(COM1 + 3, 0x80);
 
 	//set divisor to 3
@@ -23,7 +23,7 @@ void init_serial()
 	// 8 bits length
    	outb(COM1 + 3, 0x03);
 
-	// enable fifo, clear receive fifo, clear transmit fifo, 14 bytes
+	// enable fifo, clear receive fifo, clear transmit fifo
 	outb(COM1 + 2, 0xC7);
 }
 

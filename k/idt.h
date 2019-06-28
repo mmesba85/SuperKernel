@@ -28,6 +28,7 @@ struct idt_r {
 
 void init_idt(void);
 void init_pic(void);
+int getkey(void);
 
 extern void isr0 ();
 extern void isr1 ();

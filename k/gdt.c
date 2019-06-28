@@ -5,6 +5,8 @@
 
 #include "gdt.h"
 
+
+// build GDT
 void init_gdtdesc(u32 base, u32 limite, u8 acces, u8 other, struct gdtdesc *d)
 {
   d->lim0_15 = (limite & 0xffff);
@@ -19,6 +21,8 @@ void init_gdtdesc(u32 base, u32 limite, u8 acces, u8 other, struct gdtdesc *d)
 struct gdt_r gdtr;
 struct gdtdesc gdt[5];
 
+
+// load GDT
 void load(void)
 {
   __asm__("cli\n");
@@ -34,6 +38,7 @@ void load(void)
     : "m" (gdtr)
     : "memory");
 }
+
 void switch_to_protected(void)
 {
   __asm__(
